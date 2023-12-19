@@ -16,7 +16,10 @@ func NewMetricService(next PriceFetcher) PriceFetcher {
 }
 
 func (s *metricService) FetchPrice(ctx context.Context, ticker string) (price float64, err error) {
-	fmt.Println("pushing metrics to prometheus")
+	if ticker != "" {
+		fmt.Printf("pushing metrics to prometheus %s %f\n", ticker, price)
 
-	return s.next.FetchPrice(ctx, ticker)
+		return s.next.FetchPrice(ctx, ticker)
+	}
+	return price, nil
 }
